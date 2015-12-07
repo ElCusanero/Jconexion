@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jdesktop.swingx.JXTable;
 //</editor-fold>
 
 /**
@@ -32,6 +33,10 @@ import java.util.Map;
  */
 public abstract class Datos {
 
+    public Datos() {
+        iTableClickedElements = new ArrayList<ITableClicked>();
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="Campos [Variables, Objetos]">
     /**
      * Objeto que almacena la matriz resultante de la consulta realizada en SQL
@@ -58,7 +63,7 @@ public abstract class Datos {
      * Objeto de InternalFrame InternalTable utilizado para generar la tabla de
      * una consulta de SQL
      */
-    private final InternalTable internal = new InternalTable();
+    private InternalTable internal;
 
     private File file;
     private JTable jTable;
@@ -193,7 +198,31 @@ public abstract class Datos {
         }
         ((ArrayList) this.matriz.get(tupla)).add(o.toString());
     }
+    
+    /**
+     * Elementos para realizar un observer
+     * @since JConexionDB 1.4.8
+     */
+    private ArrayList<ITableClicked> iTableClickedElements;
 
+    /**
+     * Obtiene todos los ITableClicked events que se han asignado
+     * @return ArrayList
+     * @since JConexionDB 1.4.8
+     */
+    public ArrayList<ITableClicked> getITableClickedElements() {
+        return iTableClickedElements;
+    }
+    
+    /**
+     * Asigna los eventos para obsevar el comportamiento de la tabla ante un click
+     * @param tableCliked ITableClicked item
+     * @since JConexionDB 1.4.8
+     */
+    public void setOnTableClicked(ITableClicked tableCliked){
+        this.iTableClickedElements.add(tableCliked);
+    }
+    
     /**
      * Muestra consulta en JDialog <br>
      * Este metodo fue agregado en la version 1.1 de JConexionDB con el fin de
@@ -203,7 +232,7 @@ public abstract class Datos {
      * @since JConexionDB 1.1
      */
     public void mostrarDialogTable(String titulo) {
-        dialog = new FramTable(new javax.swing.JFrame(), true);
+        dialog = new FramTable(new javax.swing.JFrame(), true, this);
         dialog.setLocationRelativeTo(null);
         try {
             //obtenemos el numero de las filaz de la matriz
@@ -265,6 +294,7 @@ public abstract class Datos {
      * @since JConexionDB 1.2.1
      */
     public void mostrarInternalTable(String titulo, JDesktopPane dp) {
+        this.internal = new InternalTable(this);
         boolean b1 = this.mostrarInternalTable(titulo);
         if (b1) {
             this.internal.show();

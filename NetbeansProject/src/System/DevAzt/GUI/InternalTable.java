@@ -13,6 +13,8 @@ import System.Settings.JConexion;
 import System.DevAzt.IO.ExportXLS;
 import System.DataBase.Core.Conexion;
 import System.DataBase.Core.DataBase;
+import System.DataBase.Core.Datos;
+import System.DataBase.Core.ITableClicked;
 
 /**
  *
@@ -27,11 +29,13 @@ public class InternalTable extends javax.swing.JInternalFrame {
     private Archivo file = new Archivo();
     private String SQL;
     private Conexion c;
-
+    private Datos datos;
+    
     boolean tablaEditable = false;
 
-    public InternalTable() {
+    public InternalTable(Datos datos) {
         initComponents();
+        this.datos = datos;
         this.tabla.setEnabled(tablaEditable);
         this.tabla.setAutoCreateRowSorter(true);
     }
@@ -75,6 +79,11 @@ public class InternalTable extends javax.swing.JInternalFrame {
                 "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabla);
 
         jMenu1.setText("Archivo");
@@ -199,6 +208,21 @@ public class InternalTable extends javax.swing.JInternalFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.actualizar();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        try{
+            int point = this.tabla.getSelectedRow();
+            if(point > -1){
+                ArrayList<ITableClicked> eventos = datos.getITableClickedElements();
+                ArrayList tupla = datos.getTupla(point);
+                for (ITableClicked evento : eventos) {
+                    evento.data(tupla, point);
+                }
+            }
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_tablaMouseClicked
 
     public void actualizar() {
         this.SQL = Conexion.getSQL();

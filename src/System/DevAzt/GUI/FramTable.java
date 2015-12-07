@@ -16,6 +16,8 @@ import System.DevAzt.IO.Imagen;
 import System.DevAzt.IO.Impresora;
 import System.DataBase.Core.Conexion;
 import System.DataBase.Core.DataBase;
+import System.DataBase.Core.Datos;
+import System.DataBase.Core.ITableClicked;
 
 /**
  * @version JConexionDB 1.1
@@ -31,12 +33,12 @@ public class FramTable extends javax.swing.JDialog {
     private Archivo file = new Archivo();
     private String SQL;
     private Conexion c;
-
+    private Datos datos;
     boolean tablaEditable = false;
-
-    public FramTable(java.awt.Frame parent, boolean modal) {
+    
+    public FramTable(java.awt.Frame parent, boolean modal, Datos datos) {
         super(parent, modal);
-
+        this.datos = datos;
         this.setLocationRelativeTo(null);
         //this.setResizable(false);
 
@@ -50,9 +52,7 @@ public class FramTable extends javax.swing.JDialog {
         
         int altura = (int) screenSize.getHeight();
         int ancho = (int) screenSize.getWidth();
-        
         this.setSize(ancho-100, this.getHeight());
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -102,6 +102,11 @@ public class FramTable extends javax.swing.JDialog {
                 "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion", "JConexion"
             }
         ));
+        tabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabla);
 
         jMenu1.setText("Archivo");
@@ -249,6 +254,21 @@ public class FramTable extends javax.swing.JDialog {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.actualizar();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void tablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMouseClicked
+        try{
+            int point = this.tabla.getSelectedRow();
+            if(point > -1){
+                ArrayList<ITableClicked> eventos = datos.getITableClickedElements();
+                ArrayList tupla = datos.getTupla(point);
+                for (ITableClicked evento : eventos) {
+                    evento.data(tupla, point);
+                }
+            }
+        }catch(Exception ex){
+            
+        }
+    }//GEN-LAST:event_tablaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem exportImg;

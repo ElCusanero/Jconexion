@@ -4,6 +4,7 @@ package Aplicacion.Vistas;
 import Aplicacion.Controller.IndexController;
 import System.MVC.Core.IView;
 import System.MVC.Core.View;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 /**
@@ -46,8 +47,8 @@ public class Index extends View implements IView{
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(661, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -65,7 +66,7 @@ public class Index extends View implements IView{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        getController().onClickFromUI(IndexController.btnExitApp, this, null);
+        getController().onClickFromUI(IndexController.btnExitApp, this, (JComponent) null);
     }//GEN-LAST:event_jButton1ActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

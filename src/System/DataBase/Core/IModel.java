@@ -6,8 +6,8 @@
 package System.DataBase.Core;
 
 /**
- *
- * @author Neksze
+ * Model para los model de Aplicacion.Model
+ * @author Nekszer
  */
 public interface IModel {
     
