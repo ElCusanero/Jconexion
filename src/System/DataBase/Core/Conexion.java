@@ -2,9 +2,7 @@ package System.DataBase.Core;
 
 import System.Settings.MessageOption;
 import System.DevAzt.IO.Archivo;
-import System.Helper.Multimap;
 import System.Settings.Options;
-import com.mysql.jdbc.CallableStatement;
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  * Clase desarrollada para insertar, consultar y modificar los datos de una base
@@ -221,6 +218,7 @@ public abstract class Conexion extends Datos {
             for (int i = 1; i <= numColumnas; i++) {
                 nombreColumnas.add(datos.getMetaData().getColumnName(i));
                 //System.out.println(type.get(i-1)); //mostramos tipo de dato - descomentar para test
+                //System.out.println(datos.getMetaData().getColumnTypeName(i));
                 //System.out.println(datos.getMetaData().getColumnName(i)); //mostramos el nombre de la columna
                 this.setTamaño(nombreColumnas.get(i - 1), i - 1);
             }
@@ -229,7 +227,16 @@ public abstract class Conexion extends Datos {
             while (this.datos.next()) {
                 for (int i = 1; i <= numColumnas; i++) {
                     Object obj = datos.getObject(i);
-                    var = String.valueOf(obj);
+                    if(obj == null)
+                    {
+                        var = "";
+                    }else{
+                        try{
+                            var = String.valueOf(obj);
+                        }catch(Exception ex){
+                            var = "";
+                        }
+                    }
                     Relacion.put(nombreColumnas.get(i-1), var);
                     this.crearTabla(fila, i - 1, obj);
                     this.setTamaño(var, i - 1);
@@ -403,7 +410,6 @@ public abstract class Conexion extends Datos {
 
     private void setTamaño(String var, int columna) {
         int tamañoVar = var.length();
-
         if (tamaño[columna] < tamañoVar) {
             tamaño[columna] = tamañoVar;
         }

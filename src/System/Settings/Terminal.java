@@ -21,20 +21,25 @@ import java.sql.Connection;
 public class Terminal {
 
     public void run() {
-        Archivo config = new Archivo();
-        boolean b1 = true;
-        config.crearDir();
-
-        if (config.fileExist()) {
-            if (validacion()) {
-                Controller c = new Controller();
-                c.setFrame(new Frame());
-                c.getFrame().startController(new Index(), null);
+        if (usedb) {
+            Archivo config = new Archivo();
+            boolean b1 = true;
+            config.crearDir();
+            if (config.fileExist()) {
+                if (validacion()) {
+                    Controller c = new Controller();
+                    c.setFrame(new Frame());
+                    c.getFrame().startController(new Index(), null);
+                }
+            } else {
+                configuracion();
+                System.out.println("Ejecute de nuevo el programa");
+                System.exit(0);
             }
         } else {
-            configuracion();
-            System.out.println("Ejecute de nuevo el programa");
-            System.exit(0);
+            Controller c = new Controller();
+            c.setFrame(new Frame());
+            c.getFrame().startController(new Index(), null);
         }
     }
 
@@ -42,7 +47,7 @@ public class Terminal {
         ConfiguracionCMD c = new ConfiguracionCMD();
     }
 
-    public boolean validacion(){
+    public boolean validacion() {
         Archivo config = new Archivo();
         DataBase d = new DataBase();
         Connection conection = DataBase.getConnection();
@@ -51,6 +56,12 @@ public class Terminal {
             return false;
         }
         return true;
-    } 
-    
+    }
+
+    private boolean usedb;
+
+    public void useDataBase(boolean usedb) {
+        this.usedb = usedb;
+    }
+
 }

@@ -66,7 +66,7 @@ public class Index extends View implements IView{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        getController().onClickFromUI(IndexController.btnExitApp, this, (JComponent) null);
+        onEventFromUI(IndexController.btnExitApp, this, (JComponent) null);
     }//GEN-LAST:event_jButton1ActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -75,7 +75,7 @@ public class Index extends View implements IView{
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onControllerResponse(int action, Object object) {
+    public void onDataReceiver(int action, Object object) {
         switch (action) {
             // recibimos la informacion desde el controllador
             case IndexController.btnExitApp:

@@ -55,9 +55,9 @@ public class Options {
      * Gestores disponibles para JConexion
      * |- MySQL     => MySQL
      * |- SQLSRV    => SQL Server
-     * |- Postgre   => PostgreSQL
+     * |- Postgre   => PostgreSQL [deprecated]
      */
-    public static final String driver = "MYSQL";
+    public static final String driver = "SQLSRV";
     
     //</editor-fold>
 }

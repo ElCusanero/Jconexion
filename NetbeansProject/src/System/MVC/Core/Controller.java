@@ -9,7 +9,7 @@ package System.MVC.Core;
  *
  * @author Nekszer
  */
-public class Controller{
+public class Controller {
  
     /**
      * Instancia de un Frame
@@ -30,5 +30,19 @@ public class Controller{
      */
     public Frame getFrame() {
         return frame;
+    }
+    
+    public IView getView(){
+        if(getFrame() != null){
+            return getFrame().getView();
+        }
+        return null;
+    }
+
+    public void sendDataToUI(int action, Object object) {
+        IView viewtemp = getView();
+        if(viewtemp != null){
+            viewtemp.onDataReceiver(action, object);
+        }
     }
 }

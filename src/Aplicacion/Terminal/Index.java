@@ -23,10 +23,11 @@ public class Index extends Controller implements IController{
         //<editor-fold defaultstate="collapsed" desc="Su codigo inicia aqui - You'r code start to here">
         //</editor-fold>
         MessageOption.success(100);
+        
     }
 
     @Override
-    public void onClickFromUI(int actionId, IView view, JComponent... componentes) {
+    public void onEventFromUI(int actionId, IView view, JComponent... componentes) {
         
     }
     

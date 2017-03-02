@@ -15,7 +15,7 @@ public class JConexion {
     /**
      * Version del API
      */
-    public static final String version = "1.4.2";
+    public static final String version = "1.5.1";
     
     /**
      * Nombre del API

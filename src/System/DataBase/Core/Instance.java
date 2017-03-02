@@ -7,7 +7,6 @@ package System.DataBase.Core;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -52,7 +51,6 @@ class Instance {
         // Search for an "appropriate" constructor.
         for (Constructor<?> ctor : clazz.getConstructors()) {
             Class<?>[] paramTypes = ctor.getParameterTypes();
-
             // If the arity matches, let's use it.
             if (args.size() == paramTypes.length) {
 
@@ -65,7 +63,7 @@ class Instance {
                 return (T) ctor.newInstance(convertedArgs);
             }
         }
-        
+
         throw new IllegalArgumentException("Don't know how to instantiate " + myclass.getName());
     }
 }

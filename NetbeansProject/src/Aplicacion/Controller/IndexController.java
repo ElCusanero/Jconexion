@@ -21,16 +21,20 @@ public class IndexController extends Controller implements IController{
     
     @Override
     public void start(Object o) {
+        //<editor-fold defaultstate="collapsed" desc="Su codigo inicia aqui - You'r code start to here">
+        //</editor-fold>
         getFrame().loadView(new Index());
     }
 
     @Override
-    public void onClickFromUI(int actionId, IView view, JComponent... componentes) {
+    public void onEventFromUI(int actionId, IView view, JComponent... componentes) {
+        //<editor-fold defaultstate="collapsed" desc="Acciones de la interfaz grafica - Actions from GUI">
+        //</editor-fold>
         switch (actionId) {
             // Hacemos uso del MVC y capturamos el evento desde la vista
-            case IndexController.btnExitApp:
+            case IndexController.btnExitApp:                
                 // enviamos informacion a la vista
-                getFrame().getView().onControllerResponse(actionId, "La aplicacion terminara");
+                sendDataToUI(actionId, "La aplicacion terminara");
                 // terminamos la app
                 System.exit(0);
                 break;

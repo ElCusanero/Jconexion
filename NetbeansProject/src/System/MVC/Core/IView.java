@@ -16,6 +16,6 @@ public interface IView {
      * @param action constant for a get current action
      * @param object Object from controller
      */
-    public void onControllerResponse(int action, Object object);
+    public void onDataReceiver(int action, Object object);
     
 }

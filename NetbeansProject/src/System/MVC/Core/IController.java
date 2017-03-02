@@ -26,6 +26,6 @@ public interface IController {
      * @param view vista que realiza el evento
      * @param componentes componentes GUI de la view como args
      */
-    public void onClickFromUI(int actionId, IView view, JComponent... componentes);
+    public void onEventFromUI(int actionId, IView view, JComponent... componentes);
     
 }

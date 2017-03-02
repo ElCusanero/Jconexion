@@ -48,7 +48,12 @@ public class DataBase extends Conexion {
      * @since 1.3.0
      */
     public ArrayList get(String tabla) {
-        String SQL = "SELECT * FROM " + tabla;
+        String SQL = "SELECT * FROM ";
+        if(Options.driver.equals("Postgre")){
+            SQL += "\"" + tabla + "\"";
+        }else{
+            SQL += tabla;
+        }
         messageSQL(SQL);
         return super.consulta(SQL); //To change body of generated methods, choose Tools | Templates.
     }

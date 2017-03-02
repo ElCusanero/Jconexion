@@ -51,6 +51,10 @@ public class ORM<T> {
     public String getIdColumnName() {
         return idColumnName;
     }
+    
+    public void setIdColumnName(String idcolumname){
+        this.idColumnName = idcolumname;
+    }
 
     public <K> K getIdColumnValue() {
         return (K) idColumnValue;
@@ -83,7 +87,15 @@ public class ORM<T> {
             return null;
         }
         Map<String, String> data = toMap(clazz);
-        String SQL = "SELECT * FROM " + className + " WHERE " + idattribname + " = " + idvalue;
+        String SQL = "SELECT * FROM " + className + " WHERE ";
+        if(getIdColumnName() != null)
+        {
+            SQL += getIdColumnName() + " = " + idvalue;
+        }
+        else
+        {
+            SQL += idattribname + " = " + idvalue;
+        }
         db.excecuteQuery(SQL);
         try {
             data = db.row();
@@ -170,12 +182,21 @@ public class ORM<T> {
                 field.setAccessible(true);
                 String campo = field.getName();
                 String value = String.valueOf(field.get(instance));
-                if (campo.toLowerCase().contains("id")) {
-                    idattribvalue = value;
-                    idattribname = campo;
-                }
-                if (value.equals("null")) {
-                    value = null;
+                try{
+                    SQLNotation sqlnotation = field.getAnnotation(SQLNotation.class);
+                    if(sqlnotation != null)
+                    {
+                        if(sqlnotation.PrimaryKey())
+                        {
+                            idattribvalue = value;
+                            idattribname = campo;
+                            if (value.equals("null")) {
+                                value = null;
+                            }
+                        }
+                    }
+                }catch (Exception ex){
+                    
                 }
                 data.put(campo, value);
             } catch (SecurityException | IllegalArgumentException | IllegalAccessException ex) {

@@ -13,14 +13,10 @@ import System.DevAzt.GUI.FramTable;
 import System.DevAzt.GUI.InternalTable;
 import System.Helper.IO;
 import System.Helper.Multimap;
-import System.Settings.JConexion;
 import java.security.KeyException;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.jdesktop.swingx.JXTable;
 //</editor-fold>
 
 /**
@@ -36,17 +32,16 @@ public abstract class Datos {
     public Datos() {
         iTableClickedElements = new ArrayList<ITableClicked>();
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="Campos [Variables, Objetos]">
     /**
      * Objeto que almacena la matriz resultante de la consulta realizada en SQL
      */
-    
     /**
      * Objeto utilizado para manejar la matriz de una manera más eficiente
      */
     protected Multimap Relacion = new Multimap();
-    
+
     protected ArrayList matriz = new ArrayList();
     /**
      * Default Model para el componente del JXTable
@@ -127,7 +122,7 @@ public abstract class Datos {
             return null;
         }
     }
-    
+
     /**
      * Este metodo obtiene los datos de una tupla, y los regresa en un ArrayList
      *
@@ -138,9 +133,9 @@ public abstract class Datos {
      * @since JConexionDB 1.0
      */
     public ArrayList getTupla(int tupla) {
-        Map<String,String> data = new LinkedHashMap();
+        Map<String, String> data = new LinkedHashMap();
         ArrayList al = new ArrayList();
-        
+
         if (tupla < this.sizeTuplas()) {
             for (int j = 0; j < ((ArrayList) this.matriz.get(tupla)).size(); j++) {
                 al.add(((ArrayList) this.matriz.get(tupla)).get(j));
@@ -151,34 +146,40 @@ public abstract class Datos {
             return null;
         }
     }
-    
+
     /**
-     * Método diseñado para devolver un map con los datos correspondientes a la fila [index]
+     * Método diseñado para devolver un map con los datos correspondientes a la
+     * fila [index]
+     *
      * @param index
      * @return Map string,string
      * @throws java.security.KeyException
      * @since 1.4.2.36
      */
-    public Map<String,String> row(int index) throws IndexOutOfBoundsException{
+    public Map<String, String> row(int index) throws IndexOutOfBoundsException {
         return this.Relacion.row(index);
     }
-    
+
     /**
-     * Método diseñado para devolver la row por defecto [0] en consultas que devuelven una sola tupla
+     * Método diseñado para devolver la row por defecto [0] en consultas que
+     * devuelven una sola tupla
+     *
      * @return Map string,string
      * @since 1.4.2.36
      */
-    public Map<String,String> row() throws IndexOutOfBoundsException{
+    public Map<String, String> row() throws IndexOutOfBoundsException {
         return this.Relacion.row(0);
     }
-    
+
     /**
-     * Este método devuelve todos los valores disponibles para una columna [columname param]
+     * Este método devuelve todos los valores disponibles para una columna
+     * [columname param]
+     *
      * @param columname nombre de la columna a obtener
      * @return lista de valores
-     * @throws KeyException el nombre de la columna no es correcto o no existe 
+     * @throws KeyException el nombre de la columna no es correcto o no existe
      */
-    public List<String> column(String columname) throws KeyException{
+    public List<String> column(String columname) throws KeyException {
         return this.Relacion.column(columname);
     }
     //</editor-fold>
@@ -196,33 +197,41 @@ public abstract class Datos {
         if (columna == 0) {
             this.matriz.add(new ArrayList());
         }
-        ((ArrayList) this.matriz.get(tupla)).add(o.toString());
+        String element = "";
+        if (o != null) {
+            element = o.toString();
+        }
+        ((ArrayList) this.matriz.get(tupla)).add(element);
     }
-    
+
     /**
      * Elementos para realizar un observer
+     *
      * @since JConexionDB 1.4.8
      */
     private ArrayList<ITableClicked> iTableClickedElements;
 
     /**
      * Obtiene todos los ITableClicked events que se han asignado
+     *
      * @return ArrayList
      * @since JConexionDB 1.4.8
      */
     public ArrayList<ITableClicked> getITableClickedElements() {
         return iTableClickedElements;
     }
-    
+
     /**
-     * Asigna los eventos para obsevar el comportamiento de la tabla ante un click
+     * Asigna los eventos para obsevar el comportamiento de la tabla ante un
+     * click
+     *
      * @param tableCliked ITableClicked item
      * @since JConexionDB 1.4.8
      */
-    public void setOnTableClicked(ITableClicked tableCliked){
+    public void setOnTableClicked(ITableClicked tableCliked) {
         this.iTableClickedElements.add(tableCliked);
     }
-    
+
     /**
      * Muestra consulta en JDialog <br>
      * Este metodo fue agregado en la version 1.1 de JConexionDB con el fin de
@@ -373,7 +382,7 @@ public abstract class Datos {
         int numeroColumnas = this.sizeColumnas();
         int espacios = (numeroColumnas * 2) + (numeroColumnas + 1);
         int mitad = (total + espacios) / 2;
-        int mitadTitulo = titulo.length() / 2 ;
+        int mitadTitulo = titulo.length() / 2;
         mitad -= mitadTitulo;
         format("", mitad);
         System.out.println(titulo);
@@ -455,17 +464,16 @@ public abstract class Datos {
         return s1;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Override">
-    
-    public List<String> Select(String key){
+    public List<String> Select(String key) {
         ArrayList meta = (ArrayList) Relacion.keySet();
-        if(meta.contains(key)){
+        if (meta.contains(key)) {
             return (List<String>) Relacion.get(key);
-        }else{
+        } else {
             return null;
         }
     }
-    
+
     //</editor-fold>
 }

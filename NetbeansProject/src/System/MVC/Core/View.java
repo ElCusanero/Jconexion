@@ -5,6 +5,7 @@
  */
 package System.MVC.Core;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
@@ -52,5 +53,12 @@ public class View extends JFrame {
      */
     public void onNavigatedFrom(Object args) {
         
+    }
+    
+    public void onEventFromUI(int action, IView view,  JComponent... componentes){
+        IController viewcontroller = getController();
+        if(viewcontroller != null){
+            viewcontroller.onEventFromUI(action, view, componentes);   
+        }
     }
 }
